@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>ZT Compass — CISO Advisor Outreach</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/theme/black.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --slate: #0f172a; --slate-light: #1e293b; --slate-mid: #162032;
+      --blue: #3b82f6; --blue-light: #60a5fa; --blue-dark: #1d4ed8;
+      --white: #ffffff; --white-70: rgba(255,255,255,0.7); --white-40: rgba(255,255,255,0.4); --white-10: rgba(255,255,255,0.1);
+      --green: #22c55e; --amber: #f59e0b; --red: #ef4444;
+    }
+    .reveal { font-family: "Inter", sans-serif; }
+    .reveal .slides { text-align: left; }
+    .reveal .slides section { background: var(--slate); height: 100%; padding: 0; }
+    .reveal h1,.reveal h2,.reveal h3,.reveal h4 { font-family:"Inter",sans-serif; text-transform:none; letter-spacing:-0.02em; color:var(--white); margin:0; }
+    .reveal p,.reveal li { color:var(--white-70); }
+    .slide-inner { padding:56px 72px; height:100vh; box-sizing:border-box; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; }
+    .slide-inner::before { content:""; position:absolute; top:0; left:0; right:0; height:4px; background:linear-gradient(90deg,var(--blue),var(--blue-light),transparent); }
+    .hero-slide { background: radial-gradient(ellipse at 65% 50%,rgba(59,130,246,0.18) 0%,transparent 65%), linear-gradient(135deg,#080e1d 0%,#0f172a 60%,#0d1f3c 100%) !important; justify-content:center; }
+    .hero-slide::before { display:none; }
+    .glow-orb { position:absolute; width:500px; height:500px; border-radius:50%; background:radial-gradient(circle,rgba(59,130,246,0.12) 0%,transparent 70%); top:50%; right:-80px; transform:translateY(-50%); pointer-events:none; }
+    .hero-overline { font-size:12px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:20px; }
+    .hero-title { font-size:clamp(60px,9vw,100px) !important; font-weight:900 !important; line-height:0.92 !important; color:var(--white) !important; margin-bottom:24px !important; text-shadow:0 0 60px rgba(59,130,246,0.3); }
+    .hero-tagline { font-size:clamp(18px,2.5vw,26px); font-weight:300; color:var(--blue-light); margin-bottom:48px; }
+    .hero-badges { display:flex; gap:12px; flex-wrap:wrap; }
+    .hero-badge { padding:8px 20px; border:1px solid rgba(59,130,246,0.4); border-radius:100px; font-size:13px; font-weight:500; color:var(--blue-light); background:rgba(59,130,246,0.08); }
+    .slide-header { margin-bottom:40px; }
+    .slide-label { font-size:11px; font-weight:600; letter-spacing:0.2em; text-transform:uppercase; color:var(--blue); margin-bottom:12px; }
+    .slide-title { font-size:clamp(26px,3.5vw,40px) !important; font-weight:800 !important; line-height:1.15 !important; }
+    .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .stat-card { background:var(--slate-light); border:1px solid rgba(59,130,246,0.25); border-radius:16px; padding:32px 28px; position:relative; overflow:hidden; }
+    .stat-card::before { content:""; position:absolute; top:0; left:0; right:0; height:3px; background:var(--blue); }
+    .stat-number { font-size:clamp(36px,5vw,52px); font-weight:900; color:var(--blue); line-height:1; margin-bottom:12px; }
+    .stat-label { font-size:15px; font-weight:700; color:var(--white); margin-bottom:8px; }
+    .stat-sub { font-size:13px; color:var(--white-70); line-height:1.6; }
+    .flag-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-bottom:32px; }
+    .flag-card { background:var(--slate-light); border:1px solid rgba(59,130,246,0.2); border-radius:16px; padding:28px 24px; }
+    .flag-emoji { font-size:38px; margin-bottom:14px; display:block; }
+    .flag-country { font-size:17px; font-weight:700; color:var(--white); margin-bottom:8px; }
+    .flag-req { font-size:13px; color:var(--white-70); line-height:1.6; }
+    .flag-deadline { margin-top:12px; display:inline-block; padding:4px 12px; background:rgba(59,130,246,0.15); border:1px solid rgba(59,130,246,0.3); border-radius:100px; font-size:11px; color:var(--blue-light); font-weight:700; }
+    .timeline { display:flex; align-items:flex-start; padding:0; }
+    .timeline-item { flex:1; text-align:center; position:relative; padding-top:24px; }
+    .timeline-item::before { content:""; position:absolute; top:6px; left:0; right:0; height:2px; background:rgba(59,130,246,0.25); }
+    .timeline-dot { width:14px; height:14px; border-radius:50%; background:var(--blue); margin:0 auto 10px; box-shadow:0 0 12px rgba(59,130,246,0.6); position:relative; z-index:1; }
+    .timeline-date { font-size:12px; font-weight:700; color:var(--blue); margin-bottom:4px; }
+    .timeline-event { font-size:11px; color:var(--white-70); line-height:1.4; }
+    .flow-row { display:flex; align-items:stretch; gap:0; }
+    .flow-step { flex:1; background:var(--slate-light); border:1px solid rgba(59,130,246,0.25); border-radius:16px; padding:28px 20px; text-align:center; }
+    .flow-icon { font-size:32px; margin-bottom:12px; display:block; }
+    .flow-num { font-size:11px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:var(--blue); margin-bottom:8px; }
+    .flow-name { font-size:18px; font-weight:700; color:var(--white); margin-bottom:8px; }
+    .flow-desc { font-size:12px; color:var(--white-70); line-height:1.5; }
+    .flow-arrow { font-size:22px; color:var(--blue); padding:0 10px; flex-shrink:0; display:flex; align-items:center; }
+    .pillar-grid { display:grid; grid-template-columns:repeat(5,1fr); gap:16px; }
+    .pillar-card { background:var(--slate-light); border:1px solid rgba(59,130,246,0.2); border-radius:12px; padding:20px 14px; text-align:center; }
+    .pillar-icon { font-size:28px; margin-bottom:10px; display:block; }
+    .pillar-name { font-size:13px; font-weight:700; color:var(--white); margin-bottom:16px; }
+    .maturity-ladder { display:flex; flex-direction:column; gap:5px; }
+    .maturity-row { display:flex; align-items:center; gap:7px; }
+    .m-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .m-dot.on { background:var(--blue); box-shadow:0 0 6px rgba(59,130,246,0.6); }
+    .m-dot.off { background:rgba(59,130,246,0.18); }
+    .m-label { font-size:10px; color:var(--white-70); text-align:left; }
+    .dashboard-mock { background:#080e1d; border:1px solid rgba(59,130,246,0.3); border-radius:16px; padding:22px; font-size:12px; }
+    .db-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; padding-bottom:14px; border-bottom:1px solid rgba(255,255,255,0.07); }
+    .db-title { font-size:15px; font-weight:700; color:var(--white); }
+    .db-score { padding:5px 14px; background:rgba(59,130,246,0.2); border:1px solid var(--blue); border-radius:100px; font-size:12px; font-weight:700; color:var(--blue-light); }
+    .pillar-tiles { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; margin-bottom:18px; }
+    .p-tile { background:var(--slate-light); border-radius:10px; padding:12px 8px; text-align:center; }
+    .p-tile-name { font-size:10px; color:var(--white-70); margin-bottom:6px; }
+    .p-tile-score { font-size:18px; font-weight:800; }
+    .p-tile-score.red { color:var(--red); } .p-tile-score.amber { color:var(--amber); } .p-tile-score.green { color:var(--green); }
+    .db-bottom { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .risk-list { background:var(--slate-light); border-radius:10px; padding:14px; }
+    .risk-title { font-size:10px; font-weight:700; color:var(--white-70); margin-bottom:10px; text-transform:uppercase; letter-spacing:0.1em; }
+    .risk-item { display:flex; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:11px; color:var(--white-70); }
+    .r-dot { width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
+    .cta-panel { background:linear-gradient(135deg,var(--blue-dark),var(--blue)); border-radius:10px; padding:18px; display:flex; flex-direction:column; justify-content:space-between; }
+    .cta-panel-text { font-size:14px; font-weight:700; color:var(--white); margin-bottom:6px; }
+    .cta-panel-sub { font-size:11px; color:rgba(255,255,255,0.85); }
+    .cta-panel-btn { display:inline-block; margin-top:14px; padding:9px 18px; background:white; color:var(--blue-dark); border-radius:8px; font-size:11px; font-weight:700; text-align:center; }
+    .split-row { display:grid; grid-template-columns:1fr 1fr; gap:32px; }
+    .split-panel { background:var(--slate-light); border:1px solid rgba(59,130,246,0.2); border-radius:16px; padding:32px; }
+    .split-panel.hl { border-color:var(--blue); background:linear-gradient(135deg,rgba(59,130,246,0.08),var(--slate-light)); }
+    .split-title { font-size:11px; font-weight:700; letter-spacing:0.15em; text-transform:uppercase; color:var(--blue); margin-bottom:20px; }
+    .bullet-list { list-style:none; padding:0; margin:0; }
+    .bullet-list li { display:flex; align-items:flex-start; gap:12px; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:14px; color:var(--white-70); line-height:1.5; }
+    .bullet-list li:last-child { border-bottom:none; }
+    .bullet-list li::before { content:"→"; color:var(--blue); font-weight:700; flex-shrink:0; }
+    .get-item { display:flex; align-items:flex-start; gap:14px; padding:12px 0; border-bottom:1px solid rgba(255,255,255,0.06); }
+    .get-item:last-child { border-bottom:none; }
+    .get-icon { font-size:22px; flex-shrink:0; }
+    .get-label { font-size:13px; font-weight:700; color:var(--white); }
+    .get-sub { font-size:12px; color:var(--white-70); margin-top:3px; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .pricing-card { background:var(--slate-light); border:1px solid rgba(59,130,246,0.2); border-radius:16px; padding:28px 22px; position:relative; }
+    .pricing-card.feat { border-color:var(--blue); background:linear-gradient(135deg,rgba(59,130,246,0.1),var(--slate-light)); }
+    .feat-badge { position:absolute; top:-12px; left:50%; transform:translateX(-50%); background:var(--blue); padding:4px 16px; border-radius:100px; font-size:11px; font-weight:700; color:white; white-space:nowrap; }
+    .plan-name { font-size:12px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:0.1em; margin-bottom:10px; }
+    .plan-price { font-size:38px; font-weight:900; color:var(--white); line-height:1; margin-bottom:4px; }
+    .plan-period { font-size:12px; color:var(--white-70); margin-bottom:20px; }
+    .plan-features { list-style:none; padding:0; margin:0; }
+    .plan-features li { display:flex; align-items:center; gap:8px; padding:7px 0; border-bottom:1px solid rgba(255,255,255,0.06); font-size:12px; color:var(--white-70); }
+    .plan-features li:last-child { border-bottom:none; }
+    .ck { color:var(--green); } .cx { color:rgba(255,255,255,0.2); }
+    .big-stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+    .big-stat-card { background:linear-gradient(135deg,var(--slate-light),rgba(59,130,246,0.05)); border:1px solid rgba(59,130,246,0.25); border-radius:20px; padding:36px 28px; text-align:center; }
+    .big-number { font-size:clamp(32px,4.5vw,50px); font-weight:900; color:var(--blue); line-height:1.1; margin-bottom:10px; }
+    .big-label { font-size:14px; font-weight:600; color:var(--white); margin-bottom:6px; }
+    .big-sub { font-size:12px; color:var(--white-70); line-height:1.5; }
+    .cta-slide { background:radial-gradient(ellipse at center,rgba(59,130,246,0.1) 0%,transparent 70%),var(--slate) !important; justify-content:center; align-items:center; text-align:center; }
+    .cta-headline { font-size:clamp(38px,6vw,64px) !important; font-weight:900 !important; color:var(--white) !important; margin-bottom:16px !important; line-height:1.1 !important; }
+    .cta-sub-p { font-size:18px; color:var(--white-70); margin-bottom:40px; }
+    .cta-email-link { font-size:20px; font-weight:700; color:var(--blue-light); margin-bottom:40px; display:block; }
+    .cta-main-btn { display:inline-block; padding:16px 44px; background:var(--blue); color:white; border-radius:12px; font-size:16px; font-weight:700; text-decoration:none; margin-bottom:32px; box-shadow:0 8px 32px rgba(59,130,246,0.35); }
+    .footer-row { display:flex; gap:28px; justify-content:center; align-items:center; }
+    .footer-label { font-size:11px; color:var(--white-40); letter-spacing:0.15em; text-transform:uppercase; }
+    .footer-divider { width:1px; height:14px; background:rgba(255,255,255,0.12); }
+  </style>
+</head>
+<body>
+<div class="reveal">
+  <div class="slides">
+
+    <!-- SLIDE 1: HERO -->
+    <section>
+      <div class="slide-inner hero-slide">
+        <div class="glow-orb"></div>
+        <div>
+          <div class="hero-overline">AlpenNova Ventures &middot; Founding CISO Advisor Program</div>
+          <div style="margin-bottom:24px;">
+            <svg width="76" height="86" viewBox="0 0 76 86" fill="none" style="filter:drop-shadow(0 0 20px rgba(59,130,246,0.8))">
+              <path d="M38 4L6 18V44C6 62.4 20.4 79.4 38 84C55.6 79.4 70 62.4 70 44V18L38 4Z" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" stroke-width="2.5"/>
+              <path d="M28 43l8 8 16-16" stroke="#60a5fa" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h1 class="hero-title">ZT Compass</h1>
+          <div class="hero-tagline">Zero Trust, made executable for SMEs</div>
+          <div class="hero-badges">
+            <span class="hero-badge">&#x1F1E8;&#x1F1ED; NCSC Switzerland</span>
+            <span class="hero-badge">&#x1F1EC;&#x1F1E7; Cyber Essentials UK</span>
+            <span class="hero-badge">&#x1F1EA;&#x1F1FA; NIS2 Directive</span>
+            <span class="hero-badge">CISA ZT Architecture</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">The Challenge</div>
+          <h2 class="slide-title">SMEs are exposed &mdash; and they don&apos;t know it</h2>
+        </div>
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="stat-number">67%</div>
+            <div class="stat-label">No ZT roadmap</div>
+            <div class="stat-sub">of SMEs have no structured Zero Trust strategy &mdash; and no plan to build one</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">2025</div>
+            <div class="stat-label">NIS2 enforcement live</div>
+            <div class="stat-sub">EU NIS2 Directive enforced across 18 sectors. Fines up to &euro;10M or 2% global turnover</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number">Apr &apos;25</div>
+            <div class="stat-label">CH 24h reporting</div>
+            <div class="stat-sub">Switzerland NCSC mandatory 24-hour incident reporting for critical infrastructure &mdash; live now</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: REGULATORY MOMENT -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">The Regulatory Moment</div>
+          <h2 class="slide-title">Three regions. One compliance window. Zero time to waste.</h2>
+        </div>
+        <div class="flag-grid">
+          <div class="flag-card">
+            <span class="flag-emoji">&#x1F1E8;&#x1F1ED;</span>
+            <div class="flag-country">Switzerland</div>
+            <div class="flag-req">NCSC mandatory 24-hour incident reporting. Information Security Act (ISG) requires documented security processes and risk management across all critical sectors.</div>
+            <span class="flag-deadline">Live April 2025</span>
+          </div>
+          <div class="flag-card">
+            <span class="flag-emoji">&#x1F1EC;&#x1F1E7;</span>
+            <div class="flag-country">United Kingdom</div>
+            <div class="flag-req">Cyber Essentials Plus increasingly required for government contracts. Updated 2024 standard: MFA, patching, boundary firewalls. NCSC actively auditing.</div>
+            <span class="flag-deadline">CE+ Cycle 2025</span>
+          </div>
+          <div class="flag-card">
+            <span class="flag-emoji">&#x1F1EA;&#x1F1FA;</span>
+            <div class="flag-country">European Union</div>
+            <div class="flag-req">NIS2: 18 sectors in scope. 24h initial notification, 72h full report. Board-level accountability. Supply chain risk management now mandatory.</div>
+            <span class="flag-deadline">Enforcement 2025</span>
+          </div>
+        </div>
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Oct 2024</div>
+            <div class="timeline-event">NIS2 national<br>transposition deadline</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Apr 2025</div>
+            <div class="timeline-event">CH NCSC 24h<br>reporting goes live</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">Q2 2025</div>
+            <div class="timeline-event">First NIS2<br>enforcement actions</div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-date">2026</div>
+            <div class="timeline-event">Supply chain<br>requirements ramp</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: THE PRODUCT -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">The Product</div>
+          <h2 class="slide-title">Zero Trust from assessment to evidence &mdash; in one platform</h2>
+        </div>
+        <div class="flow-row">
+          <div class="flow-step">
+            <span class="flow-icon">&#x1F3AF;</span>
+            <div class="flow-num">Step 01</div>
+            <div class="flow-name">Assess</div>
+            <div class="flow-desc">15-minute ZT QuickScan across 5 CISA pillars. Instant maturity score per domain.</div>
+          </div>
+          <div class="flow-arrow">&#x2192;</div>
+          <div class="flow-step">
+            <span class="flow-icon">&#x1F4CA;</span>
+            <div class="flow-num">Step 02</div>
+            <div class="flow-name">Visualise</div>
+            <div class="flow-desc">Interactive dashboard. Pillar scores, risk heatmap, peer benchmark, compliance gap view.</div>
+          </div>
+          <div class="flow-arrow">&#x2192;</div>
+          <div class="flow-step">
+            <span class="flow-icon">&#x26A1;</span>
+            <div class="flow-num">Step 03</div>
+            <div class="flow-name">Act</div>
+            <div class="flow-desc">AI-generated 30/60/90 day roadmap. Prioritised controls. Owner assignment. Progress tracking.</div>
+          </div>
+          <div class="flow-arrow">&#x2192;</div>
+          <div class="flow-step">
+            <span class="flow-icon">&#x2705;</span>
+            <div class="flow-num">Step 04</div>
+            <div class="flow-name">Prove</div>
+            <div class="flow-desc">Audit-ready evidence export. NIS2 / Cyber Essentials / ISO27001 mapping. Board report.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: CISA FRAMEWORK -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">CISA Zero Trust Framework</div>
+          <h2 class="slide-title">Five pillars. Four maturity stages. One roadmap.</h2>
+        </div>
+        <div class="pillar-grid">
+          <div class="pillar-card">
+            <span class="pillar-icon">&#x1FAA6;</span>
+            <div class="pillar-name">Identity</div>
+            <div class="maturity-ladder">
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Traditional</div></div>
+              <div class="maturity-row"><div class="m-dot on"></div><div class="m-label">Initial</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Advanced</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Optimal</div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">&#x1F4BB;</span>
+            <div class="pillar-name">Devices</div>
+            <div class="maturity-ladder">
+              <div class="maturity-row"><div class="m-dot on"></div><div class="m-label">Traditional</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Initial</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Advanced</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Optimal</div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">&#x1F310;</span>
+            <div class="pillar-name">Network</div>
+            <div class="maturity-ladder">
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Traditional</div></div>
+              <div class="maturity-row"><div class="m-dot on"></div><div class="m-label">Initial</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Advanced</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Optimal</div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">&#x1F527;</span>
+            <div class="pillar-name">Apps</div>
+            <div class="maturity-ladder">
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Traditional</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Initial</div></div>
+              <div class="maturity-row"><div class="m-dot on"></div><div class="m-label">Advanced</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Optimal</div></div>
+            </div>
+          </div>
+          <div class="pillar-card">
+            <span class="pillar-icon">&#x1F5C4;&#xFE0F;</span>
+            <div class="pillar-name">Data</div>
+            <div class="maturity-ladder">
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Traditional</div></div>
+              <div class="maturity-row"><div class="m-dot on"></div><div class="m-label">Initial</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Advanced</div></div>
+              <div class="maturity-row"><div class="m-dot off"></div><div class="m-label">Optimal</div></div>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top:20px;font-size:12px;color:var(--white-40);">Each pillar scored independently &middot; Roadmap tasks mapped to maturity gaps &middot; Progress tracked over time</p>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: THE DASHBOARD -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">Product Preview</div>
+          <h2 class="slide-title">Your Zero Trust Command Centre</h2>
+        </div>
+        <div class="dashboard-mock">
+          <div class="db-header">
+            <div class="db-title">ZT Compass &middot; Acme Corp AG &mdash; Assessment #1</div>
+            <div class="db-score">Overall Score: 42 / 100</div>
+          </div>
+          <div class="pillar-tiles">
+            <div class="p-tile"><div class="p-tile-name">Identity</div><div class="p-tile-score amber">45</div></div>
+            <div class="p-tile"><div class="p-tile-name">Devices</div><div class="p-tile-score red">28</div></div>
+            <div class="p-tile"><div class="p-tile-name">Network</div><div class="p-tile-score amber">51</div></div>
+            <div class="p-tile"><div class="p-tile-name">Apps</div><div class="p-tile-score red">35</div></div>
+            <div class="p-tile"><div class="p-tile-name">Data</div><div class="p-tile-score red">22</div></div>
+          </div>
+          <div class="db-bottom">
+            <div class="risk-list">
+              <div class="risk-title">Top 5 Risks</div>
+              <div class="risk-item"><div class="r-dot"></div>No MFA on privileged accounts</div>
+              <div class="risk-item"><div class="r-dot"></div>Unmanaged BYOD devices</div>
+              <div class="risk-item"><div class="r-dot"></div>Flat network &mdash; no segmentation</div>
+              <div class="risk-item"><div class="r-dot"></div>Data classification not in place</div>
+              <div class="risk-item" style="border-bottom:none"><div class="r-dot"></div>No incident response plan</div>
+            </div>
+            <div class="cta-panel">
+              <div>
+                <div class="cta-panel-text">Your 90-day roadmap is ready</div>
+                <div class="cta-panel-sub">23 prioritised actions &middot; NIS2 gaps mapped &middot; Board-ready report</div>
+              </div>
+              <div class="cta-panel-btn">Generate Roadmap &#x2192;</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: FOUNDING ADVISOR ROLE -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">For You</div>
+          <h2 class="slide-title">The Founding Security Advisor Role</h2>
+        </div>
+        <div class="split-row">
+          <div class="split-panel">
+            <div class="split-title">What you bring</div>
+            <ul class="bullet-list">
+              <li>Shape the ZT framework scoring model &mdash; your CISO expertise becomes our product logic</li>
+              <li>Review the QuickScan question bank for each pillar &mdash; validate against real-world SME posture</li>
+              <li>Introductions to 3&ndash;5 SME organisations for private beta &mdash; your network, our product</li>
+            </ul>
+          </div>
+          <div class="split-panel hl">
+            <div class="split-title">What you get</div>
+            <div class="get-item">
+              <div class="get-icon">&#x1F3C6;</div>
+              <div><div class="get-label">Named co-creator credit</div><div class="get-sub">Public profile on ztcompass.io + press releases + pitch decks</div></div>
+            </div>
+            <div class="get-item">
+              <div class="get-icon">&#x1F4B0;</div>
+              <div><div class="get-label">Revenue share</div><div class="get-sub">15% of MRR from your referred organisations for 24 months</div></div>
+            </div>
+            <div class="get-item">
+              <div class="get-icon">&#x1F4C8;</div>
+              <div><div class="get-label">Equity options</div><div class="get-sub">0.25&ndash;0.5% vested over 18 months &mdash; first 3 advisors only</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 8: BUSINESS MODEL -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">Business Model</div>
+          <h2 class="slide-title">Accessible for SMEs. Sticky for MSSPs.</h2>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plan-name">Free</div>
+            <div class="plan-price">CHF 0</div>
+            <div class="plan-period">QuickScan only</div>
+            <ul class="plan-features">
+              <li><span class="ck">&#x2713;</span>ZT QuickScan (15 min)</li>
+              <li><span class="ck">&#x2713;</span>Maturity score overview</li>
+              <li><span class="ck">&#x2713;</span>Top 3 risks identified</li>
+              <li><span class="cx">&#x2715;</span>Full roadmap</li>
+              <li><span class="cx">&#x2715;</span>Compliance mapping</li>
+              <li><span class="cx">&#x2715;</span>Evidence export</li>
+            </ul>
+          </div>
+          <div class="pricing-card feat">
+            <div class="feat-badge">Most Popular</div>
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">CHF 299</div>
+            <div class="plan-period">per month &middot; 1 organisation</div>
+            <ul class="plan-features">
+              <li><span class="ck">&#x2713;</span>Full pillar assessment</li>
+              <li><span class="ck">&#x2713;</span>AI roadmap (30/60/90 day)</li>
+              <li><span class="ck">&#x2713;</span>NIS2 + CE gap analysis</li>
+              <li><span class="ck">&#x2713;</span>Board-ready report export</li>
+              <li><span class="ck">&#x2713;</span>Progress tracking</li>
+              <li><span class="cx">&#x2715;</span>Multi-client management</li>
+            </ul>
+          </div>
+          <div class="pricing-card">
+            <div class="plan-name">Partner</div>
+            <div class="plan-price">CHF 799</div>
+            <div class="plan-period">per month &middot; up to 10 clients</div>
+            <ul class="plan-features">
+              <li><span class="ck">&#x2713;</span>All Pro features</li>
+              <li><span class="ck">&#x2713;</span>Multi-client dashboard</li>
+              <li><span class="ck">&#x2713;</span>White-label reports</li>
+              <li><span class="ck">&#x2713;</span>MSSP API access</li>
+              <li><span class="ck">&#x2713;</span>Priority support</li>
+              <li><span class="ck">&#x2713;</span>Partner directory listing</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: THE OPPORTUNITY -->
+    <section>
+      <div class="slide-inner">
+        <div class="slide-header">
+          <div class="slide-label">The Opportunity</div>
+          <h2 class="slide-title">Regulatory tailwind + underserved market = timing advantage</h2>
+        </div>
+        <div class="big-stat-grid">
+          <div class="big-stat-card">
+            <div class="big-number">CHF 15K</div>
+            <div class="big-label">MRR Target (Year 1)</div>
+            <div class="big-sub">50 Pro orgs &times; CHF 299/mo &middot; Achievable with advisor network effect</div>
+          </div>
+          <div class="big-stat-card">
+            <div class="big-number">50+</div>
+            <div class="big-label">Pro Organisations</div>
+            <div class="big-sub">CH + UK SMEs 50&ndash;500 employees &middot; NIS2 / ISG compliance deadline pressure</div>
+          </div>
+          <div class="big-stat-card">
+            <div class="big-number">&euro;10M</div>
+            <div class="big-label">Fine Exposure = Urgency</div>
+            <div class="big-sub">MSSPs need white-label ZT tooling at SME price points &mdash; we are first to market</div>
+          </div>
+        </div>
+        <div style="margin-top:28px;padding:18px 24px;background:var(--slate-light);border-radius:12px;border-left:3px solid var(--blue);">
+          <p style="margin:0;font-size:13px;color:var(--white-70);line-height:1.7;"><strong style="color:var(--white);">Why now:</strong> NIS2 enforcement + CH ISG + UK Cyber Essentials refresh have created a compliance urgency that SMEs cannot ignore. No CISO-grade Zero Trust tooling exists at SME price points. ZT Compass owns this category.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: THE ASK -->
+    <section>
+      <div class="slide-inner cta-slide">
+        <div class="glow-orb" style="left:50%;right:auto;transform:translate(-50%,-50%);top:50%;"></div>
+        <div>
+          <div class="slide-label" style="text-align:center;margin-bottom:16px;">The Ask</div>
+          <h2 class="cta-headline">30 minutes.<br>No commitment.</h2>
+          <p class="cta-sub-p">Let&apos;s explore if the Founding Security Advisor role fits your goals.</p>
+          <a href="mailto:raghu@alpennova.ch" class="cta-email-link">raghu@alpennova.ch</a>
+          <div><a href="mailto:raghu@alpennova.ch" class="cta-main-btn">Book a call &#x2192;</a></div>
+          <div class="footer-row" style="margin-top:32px;">
+            <span class="footer-label">AlpenNova Ventures</span>
+            <div class="footer-divider"></div>
+            <span class="footer-label">ZT Compass</span>
+            <div class="footer-divider"></div>
+            <span class="footer-label">Z&uuml;rich &middot; 2025</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.6.1/reveal.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true, transition: "slide", transitionSpeed: "default",
+    backgroundTransition: "fade", controls: true, progress: true,
+    slideNumber: "c/t", width: 1280, height: 720,
+    margin: 0, minScale: 0.2, maxScale: 2.0
+  });
+</script>
+</body>
+</html>
