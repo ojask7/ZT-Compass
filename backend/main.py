@@ -14,7 +14,7 @@ import google.generativeai as genai
 app = FastAPI(title="ZT Compass API")
 
 DB_PATH = "/tmp/ztcompass.db"
-GEMINI_KEY = os.environ.get("GEMINI_API_KEY", "AIzaSyDXZtZs5WZp8wOGILXnwC_oZt_ALP3byZU")
+GEMINI_KEY = os.environ["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_KEY)
 
 def init_db():

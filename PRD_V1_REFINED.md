@@ -77,7 +77,7 @@ Frontend:    React 18 + Tailwind CSS (Vite) — or Streamlit for speed
 Database:    SQLite (demo) → PostgreSQL / Cloud SQL (production)
 LLM:         Google Gemini (google-generativeai)
              Model: gemini-2.0-flash
-             Key:   AIzaSyDXZtZs5WZp8wOGILXnwC_oZt_ALP3byZU
+             Key:   GEMINI_API_KEY_REDACTED
 Container:   Single Docker container (React static served via FastAPI)
 ```
 
