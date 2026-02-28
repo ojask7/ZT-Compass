@@ -11,14 +11,29 @@
     },
     "ios": {
       "bundleIdentifier": "ch.alpennova.ztcompass",
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "package": "ch.alpennova.ztcompass",
       "adaptiveIcon": {
-        "backgroundColor": "#0f172a"
+        "backgroundColor": "#0f172a",
+        "foregroundImage": "./assets/adaptive-icon.png"
       }
     },
-    "plugins": ["expo-router", "expo-notifications"]
+    "plugins": [
+      "expo-router"
+    ],
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "3673e315-744c-46eb-9f26-b62db198343f"
+      }
+    },
+    "owner": "kavinraghu"
   }
 }
