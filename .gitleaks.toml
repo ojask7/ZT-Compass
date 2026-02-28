@@ -1,0 +1,23 @@
+title = "AlpenNova Gitleaks Configuration"
+
+[extend]
+useDefault = true
+
+[[rules]]
+id = "gemini-api-key"
+description = "Google Gemini / AI Studio API Key"
+regex = '''AIzaSy[0-9A-Za-z_-]{33}'''
+tags = ["key", "Google", "Gemini"]
+
+[[rules]]
+id = "gcp-service-account"
+description = "GCP Service Account Key"
+regex = '''"type"\s*:\s*"service_account"'''
+tags = ["key", "GCP"]
+
+[allowlist]
+description = "Global allowlist"
+regexes = [
+  '''REDACTED_GEMINI_KEY''',
+  '''<GEMINI_API_KEY>''',
+]
