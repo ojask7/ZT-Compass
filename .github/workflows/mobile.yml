@@ -7,6 +7,10 @@ on:
       - 'mobile/**'
       - 'mobile-lite/**'
 
+permissions:
+  contents: read
+  actions: read
+
 jobs:
   build:
     name: EAS Build (iOS + Android)
@@ -47,3 +51,4 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage" \
             -d chat_id="5262081689" \
             -d text="📱 Mobile build ${STATUS} — ${REPO} ($(git log -1 --pretty='%s'))"
+
